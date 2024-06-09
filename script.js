@@ -2,6 +2,7 @@ let gridSize = 16*16;
 let div = "";
 const body = document.querySelector("body");
 const container = document.querySelector(".container");
+let hoverCount = 0;
 
 function createGrid(gridNumber){
 for (let i = gridNumber**2;i>0;--i){
@@ -9,14 +10,23 @@ for (let i = gridNumber**2;i>0;--i){
     div.classList.add("square");
     div.style.height = `${960/(gridNumber)}px`;
     div.style.flexBasis = `${960/(gridNumber)}px`;
+   
     container.appendChild(div);
 }
 let allDivs = document.querySelectorAll(".square");
   allDivs.forEach(item => item.addEventListener("mouseover",function(e){
-    item.classList.add("targeted");
-
+    if (!item.classList.contains("hovered")){
+    item.style.backgroundColor = `rgb(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)})`;
+    item.classList.add("hovered");
+    item.style.opacity = 1;
+  }
+    else {
+      item.style.opacity = Number(item.style.opacity) - 0.1; 
+    }
+//item.classList.add("targeted");
   }));
 }
+
 function removeGrid(){
   container.innerHTML = "";
 }
@@ -24,10 +34,13 @@ function removeGrid(){
 const button = document.querySelector("button");
 button.addEventListener("click",function(e){
   let gridNumber = window.prompt("How many");
-  removeGrid();
-  createGrid(gridNumber);
+  if (gridNumber < 101 || typeof gridNumber ==number){
+    removeGrid();
+    createGrid(gridNumber);
+  }
   
-console.log(allDivs);
+  
+
 }) 
 
 
